@@ -3,7 +3,17 @@ local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 
 local run_search = function()
-  pickers.new({}, {
+  pickers.new({
+    sorting_strategy = "ascending",
+    initial_mode = 'insert',
+    layout_strategy = 'horizontal',
+    layout_config = {
+      prompt_position = "top",
+      height = 0.96,
+      width = 0.96,
+      preview_cutoff = 1
+    },
+  }, {
     prompt_title = "grimoire",
     finder = finders.new_job(
       function(prompt)
