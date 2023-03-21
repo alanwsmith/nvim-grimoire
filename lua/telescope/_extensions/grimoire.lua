@@ -2,56 +2,60 @@ local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local Job = require 'plenary.job'
 
-local msearch = function()
-	-- local msg = require('notify')
-	-- local window_list = vim.api.nvim_list_wins()
-	-- for i = 1, #window_list do
-	--    msg(vim.win_getid(window_list[i]))
-	--end
-	-- return vim.api.nvim_list_bufs()
-	--  ?
-	-- require('notify')(vim.api.nvim_list_wins())
-
-	--
-	--
-	return { "a", "b", "c" }
-end
-
+-- local make_url = function(query_string)
+-- 	-- TODO: escape the query_string for urls
+-- 	local url = 'http://127.0.0.1:7700/indexes/set-1/search?q=' .. query_string
+-- 	return url
+-- end
+--
 local run_search = function()
-	local auth_key = ""
+	-- local auth_string = ""
+	-- local call_string =
 
-	Job:new({
-		-- command = 'date',
-		 command = 'security',
-		args = { 'find-generic-password', '-w', '-a', 'alan', '-s', 'test--example--key' },
-		on_exit = function(job, return_val)
-			-- msg('alfa')
-			--run_query(job:result(), query_string)
-			--return { "e", "q" }--
-			--auth_key = job:result()
-		        auth_key = job:result()[1]
-			-- auth_key = 'asdfasdfasdf'
-			print('asdfasdfasdfsdf')
-			--require('notify')('asdf')
-			-- require('notify')(job:result())
-		end
-	}):sync()
-
+	-- Job:new({
+	-- 	command = 'security',
+	-- 	args = { 'find-generic-password', '-w', '-a', 'alan', '-s', 'alan--meilisearch--scratchpad--test-key' },
+	-- 	on_exit = function(job)
+	-- 		auth_string = 'Authorization: Bearer ' .. job:result()[1]
+	-- 	end
+	-- }):sync()
+	--
 	pickers.new({}, {
 		prompt_title = "grimoire",
 		finder = finders.new_job(function(prompt)
-			return { 'echo', auth_key }
+			local auth_string = ""
+			Job:new({
+				command = 'security',
+				args = { 'find-generic-password', '-w', '-a', 'alan', '-s',
+					'alan--meilisearch--scratchpad--test-key' },
+				on_exit = function(job)
+					auth_string = job:result()[1]
+				end
+			}):sync()
+			local cmd = 'curl -s -X GET "http://127.0.0.1:7700/indexes/set-1/search?q=fox" -H "Authorization: Bearer ' .. auth_string .. '"; echo ""'
+			return { 'bash', '-c', cmd }
+			-- return { 'bash', '/Users/alan/Desktop/msearch.bash' }
+			-- return flatten { 'curl', 'http://www.example.com/' }
+			-- return flatten { 'curl', '-s', '-X', 'GET', 'http://127.0.0.1:7700/indexes/set-1/search?q=fox', '-H', 'Authorization: Bearer cajun-viscus-chariot-lambskin-gobbet-distal-BESTRODE-A1' }
+
+			-- return { 'curl', '-s', '-X',  'GET', '"http://127.0.0.1:7700/indexes/set-1/search?q=fox"', '-H', '"Authorization: Bearer cajun-viscus-chariot-lambskin-gobbet-distal-BESTRODE-A1"' }
+			--return { 'curl', '-s', '-X',  'GET', '"http://127.0.0.1:7700/indexes/set-1/search?q=fox"', '-H', '"Authorization: Bearer cajun-viscus-chariot-lambskin-gobbet-distal-BESTRODE-A1"' }
+
+			--local args =
+			-- return { 'curl', 'https://www.example.com?asdf'}
+			-- return {'curl', '-s', '-X', 'GET', make_url(prompt) }
+			-- make_url(prompt)
+			--local url = 'http://127.0.0.1:7700/indexes/set-1/search?q=j' .. prompt
+			--return { 'curl', '-s', '-X', 'GET', 'http://127.0.0.1:7700/indexes/set-1/search', '-H', auth_string}
+			--return { 'curl', '-s', '-X', 'GET', 'https://www.example.com/', '>&2'}
+			--return { 'curl', '-s', '-X', 'GET', 'https://www.example.com/', '>&2'}
+			-- return {
+			-- 	'curl',
+			-- 	'-s', '-X', 'GET', make_url(prompt), '-H', auth_string
+			-- }
+			--
 		end
 		)
-		-- sorter = sorters.highlighter_only(opts),
-		--   --results = { "red", "green", "blue" }
-		-- results = msearch()
-		-- finder = finders.new_table {
-		-- 	--   --results = { "red", "green", "blue" }
-		-- 	results = msearch()
-		-- }
-		-- finder = finders.new_oneshot_job({ 'date' }, opts)
-		-- finder = finders.new_oneshot_job({ 'echo' }, opts)
 	}):find()
 end
 
