@@ -32,8 +32,8 @@ I use `lazy`` to load plugins and add mine
 into the mix with:
 
 -> code
--> lua
--> filename: ~/.config/nvim/init.lua
+>> lua
+>> filename: ~/.config/nvim/init.lua
 
 require('lazy').setup({
   { dir = "~/workshop/nvim-grimoire" },
