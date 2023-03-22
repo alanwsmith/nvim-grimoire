@@ -52,6 +52,7 @@ local run_search = function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
         -- require('notify')(selection['display'])
+        -- TODO: Limit and dedupe this history file
         prepend_file(
           "/Users/alan/.config/grimoire-mode/search-history.txt",
           selection['value']
