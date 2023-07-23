@@ -57,7 +57,7 @@ local run_search = function()
           "/Users/alan/.config/grimoire-mode/search-history.txt",
           selection['value']
         )
-        vim.api.nvim_command('edit ' .. selection['filename'])
+        vim.api.nvim_command('tabedit ' .. selection['filename'])
       end
       )
       return true
