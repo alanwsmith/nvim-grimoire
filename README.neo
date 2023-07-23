@@ -1,39 +1,41 @@
--> title
+-- title
 
 Neovim Grimoire
 
 The Neovim interface to my Grimoire
 
--> h2
+-- h2
 
 Overview
 
-This is my personal extension for the Telescope^
-Neovim plugin. It calls out to a brige process
-I have setup (called grimoire_search) that 
-in turn queries my files via Meilisearch^. 
+This is my personal extension for the Telescope
+Neovim plugin. It calls out to a bridge process
+I setup (called grimoire_search) that 
+in turn queries my files via Meilisearch. 
 
-
--> h2
+-- h2
 
 Usage
 
 I keep the file in an my workshop directory at:
 
 
--> code
+-- code
 
 ~/workshop/nvim-grimoire/lua/telescope/_extensions/grimoire.lua
 
 
--> p 
+-- p 
 
-I use `lazy`` to load plugins and add mine
-into the mix with:
+I use `lazy`` for plugins.  
 
--> code
->> lua
->> filename: ~/.config/nvim/init.lua
+This plugin is loaded like this:
+
+
+-- code
+-- lua
+-- title: ~/.config/nvim/init.lua
+
 
 require('lazy').setup({
   { dir = "~/workshop/nvim-grimoire" },
@@ -43,7 +45,7 @@ require('lazy').setup({
 pcall(require('telescope').load_extension, 'grimoire')
 
 
--> p
+-- p
 
 The extension makes a call to an external process
 for every character. I looked at a half dozen extensions
@@ -53,28 +55,31 @@ will help if you're interested in trying something
 similar. 
 
 
--> footnotes
+-- todo
 
-- <<link | 
-  https://github.com/nvim-telescope/telescope.nvim |
-  Telescope >> - The highly extendable fuzzy finder
-  for Neovim
-
-- <<link |
-  https://www.meilisearch.com/
-  Meilisearch >> - A super fast, open-source search
-  engine written in Rust. 
+[] write up the way the plugin works for making
+the calls for every typed letter
 
 
+-- ref 
+-- title: Telescope
+-- url: https://github.com/nvim-telescope/telescope.nvim
+-- subtitle: The highly extendable fuzzy finder for Neovim
 
--> categories
->> Neovim
->> Lua
+-- ref
+-- url: https://www.meilisearch.com/
+-- title: Meilisearch 
+-- subtitle: - A super fast, open-source search engine written in Rust. 
 
--> attributes
->> date: 2023-03-21 01:09:04
->> id: 2njouvq5k5g1
->> site: aws
->> type: post
->> status: published
+
+-- categories
+-- Neovim
+-- Lua
+
+-- attributes
+-- date: 2023-03-21 01:09:04
+-- id: 2njouvq5k5g1
+-- site: aws
+-- type: post
+-- status: published
 
