@@ -4,20 +4,45 @@ local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 
+local function has_value(tab, val)
+  for index, value in ipairs(tab) do
+    if value == val then
+      return true
+    end
+  end
+  return false
+end
 
 local prepend_file = function(file_path, line)
   local tmp_path = file_path .. ".tmp"
   local file = io.open(file_path, 'r')
-  local tmp = io.open(tmp_path, 'a')
-  tmp:write(line .. "\n")
-  for line in file:lines() do
-    tmp:write(line)
-    tmp:write("\n")
+  local t = {}
+  table.insert(t, line)
+  for line_to_add in file:lines() do
+    if not has_value(t, line_to_add) then
+      table.insert(t, line_to_add)
+    end
   end
   file:close()
+  local tmp = io.open(tmp_path, 'a')
+  for _, new_line in ipairs(t) do
+    tmp:write(new_line)
+    tmp:write("\n")
+  end
   tmp:close()
-  os.remove(file_path)
   os.rename(tmp_path, file_path)
+
+
+  -- local tmp = io.open(tmp_path, 'a')
+  -- tmp:write(line .. "\n")
+  -- for line in file:lines() do
+  --   tmp:write(line)
+  --   tmp:write("\n")
+  -- end
+  -- file:close()
+  -- tmp:close()
+  -- os.remove(file_path)
+  -- os.rename(tmp_path, file_path)
 end
 
 local run_search = function()
